@@ -25,10 +25,5 @@ int josephProblemHelper(vector<int> ppl, int k, int currentIdx) {
 int main(){
 vector<int> v1  = {1,2,3,4,5};
 cout << josephProblemHelper(v1, 3 -1 , 0);
-// cout << ,ans;
-
-
-
-
 }
 
