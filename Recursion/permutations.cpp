@@ -23,12 +23,21 @@ vector<vector<int>> permuteHelper(vector<int> nums, vector<vector<int>> result) 
     return result;
 } 
 
-vector<vector<int>> permute(vector<int>& nums) {
-    vector<vector<int>> result;
-    return permuteHelper(nums, result);   
+// Method 2 - Travel and solve
+vector<vector<int>> ans;
+void permuteHelperII(vector<int> & nums, vector<int> asf, vector<bool> visited) {
+    if(asf.size() == nums.size()) {
+        ans.push_back(asf);
+        return;
+    }
+    for(int i = 0; i < nums.size(); i++) {
+        if(visited[i]) continue;
+        visited[i] = true;
+        asf.push_back(nums[i]);
+        permuteHelperII(nums, asf, visited);
+        asf.pop_back();
+        visited[i] = false;
+    }
 }
-
-int main(){
- 
-}
+int main(){}
 

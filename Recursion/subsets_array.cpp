@@ -18,6 +18,19 @@ vector<vector<int>> getSubsetsHelper(vector<int> &nums,int idx){
     return ansVector;
 }
 
+// Method 2 - Travel and solve
+vector<vector<int>> ans;
+void genSubsequence(vector<int> &nums, vector<int> asf, int idx) {
+    // Because empty [] is also a part of the subset
+    ans.push_back(asf);
+    
+    for(int i = idx; i < nums.size(); i++) {
+       asf.push_back(nums[i]);
+       genSubsequence(nums, asf, i + 1);
+       asf.pop_back();
+    }
+}
+
 int main(){
 
 vector<int> ip = {1,2,3};
