@@ -2,76 +2,42 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-void DFS(vector<vector<char>>& board, int i, int j, int m, int n) {
-        if(i<0 or j<0 or i>=m or j>=n or board[i][j] != 'O') return;
-        board[i][j] = '#';
-        DFS(board, i-1, j, m, n);
-        DFS(board, i+1, j, m, n);
-        DFS(board, i, j-1, m, n);
-        DFS(board, i, j+1, m, n);
+void doDfs(int row, int col, vector<vector<bool>>& vis, vector<vector<char>> board) {
+    int maxRow = board.size();
+    int maxCol = board[0].size();
+
+    if(row < 0 || col < 0 || row >= maxRow 
+    || col >= maxCol || board[row][col] == 'X' || vis[row][col] == true) {
+        return;
     }
-    
-    void solve(vector<vector<char>>& board) {
-      
-      //We will use boundary DFS to solve this problem
-        
-      // Let's analyze when an 'O' cannot be flipped,
-      // if it has atleast one 'O' in it's adjacent, AND ultimately this chain of adjacent 'O's is connected to some 'O' which lies on boundary of board
-        
-      //consider these two cases for clarity :
-      /*
-        O's won't be flipped          O's will be flipped
-        [X O X X X]                   [X X X X X]     
-        [X O O O X]                   [X O O O X]
-        [X O X X X]                   [X O X X X] 
-        [X X X X X]                   [X X X X X]
-      
-      So we can conclude if a chain of adjacent O's is connected some O on boundary then they cannot be flipped
-      
-      */
-        
-      //Steps to Solve :
-      //1. Move over the boundary of board, and find O's 
-      //2. Every time we find an O, perform DFS from it's position
-      //3. In DFS convert all 'O' to '#'      (why?? so that we can differentiate which 'O' can be flipped and which cannot be)   
-      //4. After all DFSs have been performed, board contains three elements,#,O and X
-      //5. 'O' are left over elements which are not connected to any boundary O, so flip them to 'X'
-      //6. '#' are elements which cannot be flipped to 'X', so flip them back to 'O'
-      //7. finally, Upvote the solution😊   
-        
-      
-     int m = board.size();
-        
-      if(m == 0) return;  
-        
-     int n = board[0].size();
-     
-     //Moving over firts and last row   
-     for(int i=0; i<m; i++) {
-         if(board[i][0] == 'O')
-             DFS(board, i, 0, m, n);
-         if(board[i][n-1] == 'O')
-             DFS(board, i, n-1, m, n);
-     }
-        
-        
-     //Moving over first and last col   
-     for(int j=0; j<n; j++) {
-         if(board[0][j] == 'O')
-             DFS(board, 0, j, m, n);
-         if(board[m-1][j] == 'O')
-             DFS(board, m-1, j, m, n);
-     }
-        
-     for(int i=0; i<m; i++)
-         for(int j=0; j<n; j++)
-         {
-             if(board[i][j] == 'O')
-                 board[i][j] = 'X';
-             if(board[i][j] == '#')
-                 board[i][j] = 'O';
-         }
+    vis[row][col] = true;
+
+    doDfs(row + 1, col, vis, board);
+    doDfs(row - 1, col, vis, board);
+    doDfs(row, col + 1, vis, board);
+    doDfs(row, col - 1, vis, board);
+}
+void solve(vector<vector<char>>& board) {
+    vector<vector<bool>> vis(board.size(), vector<bool>(board[0].size(), false));
+    // Dfs on first and last row
+    for (int i = 0; i < board.size(); i++) {
+        doDfs(0, i, vis, board);
+        doDfs(board.size() - 1, i, vis, board);
     }
+
+    for (int i = 0; i < board.size(); i++) {
+        doDfs(i, 0, vis, board);
+        doDfs(i, board[0].size() - 1, vis, board);
+    }
+
+    for(int i = 0; i < vis.size(); i++) {
+        for(int j = 0; j < vis[i].size(); j++) {
+            if(vis[i][j] == false) {
+                board[i][j] = 'X';
+            }
+        }
+    }
+}
 int main(){
 
 
@@ -79,5 +45,4 @@ int main(){
 
 
 }
-
 

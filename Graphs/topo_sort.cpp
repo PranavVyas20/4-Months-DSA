@@ -2,43 +2,40 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-
-// When a node completes dfs calls for its adjNodes, push it in stack
-// Only valid for DAG (Directed Acyclic Graph)
-void topoSortHelper(int node, vector<bool>& vis, vector<int> adj[], stack<int>& st) {
+void doDfs(int node, vector<bool>& vis, vector<vector<int>> graph, stack<int> st) {
     vis[node] = true;
 
-    for(auto adjNode: adj[node]) {
+    for(auto adjNode: graph[node]) {
         if(vis[adjNode] == false) {
-            topoSortHelper(adjNode, vis, adj, st);
+            doDfs(adjNode, vis, graph, st);
         }
     }
     st.push(node);
 }
 
-vector<int> topoSort(int V, vector<int> adj[]) {
-    vector<bool> vis(V, false);
-    stack<int> st;
-    vector<int> result;
 
-    for(int i = 0; i < V; i++) {
+vector<int> topologicalSort(vector<vector<int>> &graph, int edges, int nodes) {
+    // Write your code here!
+    stack<int> st;
+    vector<bool>vis(graph.size(), false);
+    vector<int> ans;
+
+    for(int i = 0; i < graph.size(); i++) {
         if(vis[i] == false) {
-            topoSortHelper(i, vis, adj, st);
+            doDfs(i, vis, graph, st);
         }
     }
-
-    while( !st.empty()) {
-        result.push_back(st.top());
+    while(! st.empty() ) {
+        ans.push_back(st.top());
         st.pop();
     }
-    return result;
+    return ans;
 }
-
 int main(){
 
 
 
 
-}
 
+}
 
