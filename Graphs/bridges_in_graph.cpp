@@ -25,7 +25,7 @@ void doDfs(
             // upate the lowestReachable vertex of node
             lowestReachableVertices[node] = min(lowestReachableVertices[node], lowestReachableVertices[adjNode]);
 
-            // check if the node is a articulation point
+            // check if the node forms a bridge
             if(lowestReachableVertices[adjNode] > lowestReachableVertices[node] ) {
                 bridges.push_back({adjNode, node});
             }
