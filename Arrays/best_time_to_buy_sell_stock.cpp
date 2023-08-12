@@ -3,13 +3,16 @@
 using namespace std;
 
 /*
-
 arr = [7, 1, 5, 3, 6, 4]
 
-Look from the end of the array, if we want to buy the stock at 5th day (idx = 4) - then we need to sell
+Look from the end of the array, if we want to buy the stock at 5th day (idx = 4, 6rs) - then we need to sell
 it on the day on which its value becomes max, which basically means max number to its right array.
 
 Initially keep last element as the globalRightMax = 4;
+
+globalRightMax represents the max price of the stock for days after current day + 1
+example globalRightMax for 1 would be 6 from [3,6,4]
+
 Start iterating on the array from the second last idx
 
 -> if we buy the stock for 6rs, then we can sell it at a max of => max number to its right ie max(i+1, rightMax)
