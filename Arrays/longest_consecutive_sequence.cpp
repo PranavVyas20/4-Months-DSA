@@ -33,6 +33,7 @@ int longestConsecutiveBetter(vector<int>& nums) {
     return longest;
 }
 
+// Optimal - O(N)
 int longestConsecutiveOptimal(vector<int> & nums) {
     int longestSubsequenceLength = 0;
     // map<element, can this be the start of a sequence: Bool>
@@ -68,11 +69,5 @@ int longestConsecutiveOptimal(vector<int> & nums) {
     }
     return longestSubsequenceLength;
 }
-int main(){
 
-
-
-
-
-}
 
