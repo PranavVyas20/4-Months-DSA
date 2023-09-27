@@ -34,40 +34,27 @@ int longestConsecutiveBetter(vector<int>& nums) {
 }
 
 // Optimal - O(N)
-int longestConsecutiveOptimal(vector<int> & nums) {
-    int longestSubsequenceLength = 0;
-    // map<element, can this be the start of a sequence: Bool>
-    unordered_map<int, bool> mp;
-    // Push element in the map;
-    for(auto it : nums) {
-        mp[it] = true;
-    }
-    // Traverse the array and check if curr element can be the start of a sequence by checking if curr element - 1 th 
-    // element exists in the map or not
-    for(auto it : nums) {
-        if(mp.find(it - 1) != mp.end()) {
-            mp[it] = false;
+    int longestConsecutive(vector<int>& nums) {
+        int maxSequenceLen = 1;
+        unordered_set<int> st;
+        if(nums.size() == 0) return 0;
+        for(auto it: nums) {
+            st.insert(it);
         }
-    }
+        for(auto it: st) {
+            int pre = it - 1;
+            int post = it + 1;
+            int currentLen = 1;
 
-    // Traverse the map and pick the elements that can be the start of a sequence, check till how long we can find an element that 
-    // is just + 1 of the element and keep increasing the current sequence length
-    for(auto it : nums) {
-        if(mp[it] == true) {
-
-        int element = it;
-
-        int incrementor = 1;
-        int currentSequenceLength = 1;
-
-        while(mp.find(element + incrementor) != mp.end()) {
-            currentSequenceLength++;
-            incrementor++;
+            if(st.contains(post) && !st.contains(pre)) {
+                while(st.contains(post)) {
+                    currentLen++;
+                    post++;
+                }
+                maxSequenceLen = max(currentLen, maxSequenceLen);
+            }
         }
-        longestSubsequenceLength = max(longestSubsequenceLength, currentSequenceLength);
-        }
+        return maxSequenceLen;
     }
-    return longestSubsequenceLength;
-}
 
 
